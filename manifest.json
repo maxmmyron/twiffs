@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "twitdiff",
+  "version": "1.0",
+
+  "description": "An extension that provides diff highlighting for edited tweets.",
+
+  "icons": {
+    "48": "icons/twitdiff-48.png"
+  },
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "twitdiff@mmyron.com"
+    }
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.twitter.com/*/status/*/history"
+      ],
+      "js": ["twitdiff.js"]
+    }
+  ]
+}
