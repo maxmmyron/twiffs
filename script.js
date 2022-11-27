@@ -14,4 +14,47 @@ const lcs = (a, b) => {
   return mat[a.length][b.length];
 };
 
-document.body.style.border = "5px solid red";
+/**
+ * Contains tweets on history page, in order of newest -> oldest.
+ */
+const tweets = [];
+
+/**
+ *
+ * @param {HTMLElement} node
+ */
+const appendDiffButton = (node) => {
+  node.setAttribute("data-diff", "true");
+
+  const tweetText = node.querySelector("div[lang] > span").innerHTML;
+  tweets.push(tweetText);
+};
+
+const main = () => {
+  // check for mutations to document
+  const observer = new MutationObserver((mutations, observer) => {
+    try {
+      // check if we are on the edit history page
+      if (/http(s)?:\/\/(www.)?twitter.com\/(.){4,15}\/status\/(.)*\/history/.test(window.location.href)) {
+        for (let mutation of mutations) {
+          if (mutation.type === "attributes") {
+            // get all blocks that haven't been handled yet
+            if (mutation.target.getAttribute("role") == "article" && !mutation.target.getAttribute("data-diff")) {
+              appendDiffButton(mutation.target);
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  });
+
+  observer.observe(document, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+  });
+};
+
+main();
