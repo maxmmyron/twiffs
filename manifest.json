@@ -17,10 +17,15 @@
 
   "content_scripts": [
     {
-      "matches": [
-        "*://*.twitter.com/*/status/*/history"
-      ],
-      "js": ["script.js"]
+      "matches": ["https://twitter.com/*"],
+      "js": ["script.js"],
+      "run_at": "document_idle"
     }
+  ],
+
+  "permissions": [
+    "activeTab"
   ]
+
+
 }
