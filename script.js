@@ -174,11 +174,23 @@ const populateDiffResultModal = (modal) => {
 };
 
 const main = () => {
+  let lastHref = window.location.href;
+
   // check for mutations to document
   const observer = new MutationObserver((mutations, observer) => {
     try {
       // check if we are on the edit history page
       if (/http(s)?:\/\/(www.)?twitter.com\/(.){4,15}\/status\/(.)*\/history/.test(window.location.href)) {
+        // check if we are on a new page
+        if (lastHref !== window.location.href) {
+          lastHref = window.location.href;
+          tweets = [];
+          initialTweetIndex = -1;
+          compareTweetIndex = -1;
+          // remove modals
+          document.querySelectorAll(".diff-modal-container").forEach((el) => el.remove());
+        }
+
         for (let mutation of mutations) {
           if (mutation.type === "attributes") {
             // get all blocks that haven't been handled yet
