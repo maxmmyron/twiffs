@@ -14,6 +14,9 @@ const lcs = (a, b) => {
   return mat[a.length][b.length];
 };
 
+/**
+ * @returns {HTMLElement}
+ */
 const createElementWithProperties = (type, properties) => {
   const el = document.createElement(type);
   for (const [key, value] of Object.entries(properties)) {
@@ -23,6 +26,7 @@ const createElementWithProperties = (type, properties) => {
 };
 
 const diffSVG = `<path fill-rule="evenodd" d="M9.24264 1.79736L7.82843 3.21158L9.61685 5L7.25 5C5.45507 5 4 6.45507 4 8.25L4 15.1707C2.83481 15.5825 2 16.6938 2 18C2 19.6569 3.34315 21 5 21C6.65685 21 8 19.6569 8 18C8 16.6938 7.16519 15.5825 6 15.1707L6 8.25C6 7.55964 6.55964 7 7.25 7L9.69686 7L7.82843 8.86843L9.24264 10.2826L13.4853 6.04L9.24264 1.79736ZM5 17C4.44772 17 4 17.4477 4 18C4 18.5523 4.44772 19 5 19C5.55228 19 6 18.5523 6 18C6 17.4477 5.55228 17 5 17Z"/><path fill-rule="evenodd" d="M16 6C16 7.30621 16.8348 8.41745 18 8.82929V15.75C18 16.4404 17.4404 17 16.75 17H14.4542L16.2426 15.2116L14.8284 13.7973L10.5858 18.04L14.8284 22.2826L16.2426 20.8684L14.3742 19H16.75C18.5449 19 20 17.5449 20 15.75V8.82929C21.1652 8.41745 22 7.30621 22 6C22 4.34314 20.6569 3 19 3C17.3431 3 16 4.34314 16 6ZM20 6C20 6.55228 19.5523 7 19 7C18.4477 7 18 6.55228 18 6C18 5.44771 18.4477 5 19 5C19.5523 5 20 5.44771 20 6Z"/>`;
+const closeSVG = `<path d="M10.59 12L4.54 5.96l1.42-1.42L12 10.59l6.04-6.05 1.42 1.42L13.41 12l6.05 6.04-1.42 1.42L12 13.41l-6.04 6.05-1.42-1.42L10.59 12z" />`;
 
 //Contains tweets on history page, in order of newest -> oldest.
 let tweets = [];
@@ -55,17 +59,23 @@ const createTweet = (tweetIndex, canSelect = true) => {
 };
 
 const createModal = (title) => {
+  document.documentElement.style.overflowY = "hidden";
+
   const modalContainer = createElementWithProperties("div", { className: "diff-modal-container", role: "dialog", ariaModal: "true" });
   modalContainer.style.transform = `translateY(${window.scrollY}px)`;
 
   modalContainer.addEventListener("click", (e) => {
-    e.target === modalContainer && modalContainer.remove();
-    document.documentElement.style.overflowY = "auto";
+    if (e.target === modalContainer) {
+      modalContainer.remove();
+      document.documentElement.style.overflowY = "auto";
+    }
   });
 
   const modal = createElementWithProperties("div", { className: "diff-modal" });
 
   const modalHeader = createElementWithProperties("div", { className: "diff-modal-header" });
+
+  const closeContainer = createElementWithProperties("div", { className: "diff-modal-close-container" });
 
   const closeEl = createElementWithProperties("div", { className: "diff-modal-close" });
   closeEl.addEventListener("click", () => {
@@ -73,7 +83,12 @@ const createModal = (title) => {
     document.documentElement.style.overflowY = "auto";
   });
 
-  modalHeader.appendChild(closeEl);
+  const closeSVGEl = `<svg class="diff-modal-close-svg" aria-hidden="true" viewBox="0 0 24 24">${closeSVG}</svg>`;
+
+  closeEl.innerHTML = closeSVGEl;
+  closeContainer.appendChild(closeEl);
+
+  modalHeader.appendChild(closeContainer);
   modalHeader.appendChild(createElementWithProperties("h2", { innerHTML: title, className: "diff-modal-title" }));
   modal.appendChild(modalHeader);
   modal.appendChild(createElementWithProperties("div", { className: "diff-modal-content" }));
@@ -101,7 +116,6 @@ const appendDiffButton = (node) => {
   diffButton.firstChild.firstChild.removeAttribute("aria-expanded");
   diffButton.firstChild.firstChild.removeAttribute("aria-haspopup");
 
-  // update icon
   diffButton.querySelector("svg").innerHTML = diffSVG;
 
   diffButton.addEventListener("mouseenter", () => {
@@ -117,7 +131,6 @@ const appendDiffButton = (node) => {
   diffButton.addEventListener("click", () => {
     initialTweetIndex = newTweetIndex;
     // override body scroll
-    document.documentElement.style.overflowY = "hidden";
 
     // create modal, populate with other available tweets (take from tweets array)
     document.getElementById("layers").appendChild(populateDiffInputModal(createModal("Compare tweets"), newTweetIndex));
