@@ -14,22 +14,40 @@ const lcs = (a, b) => {
   return mat[a.length][b.length];
 };
 
+const createElementWithProperties = (type, properties) => {
+  const el = document.createElement(type);
+  for (const [key, value] of Object.entries(properties)) {
+    el[key] = value;
+  }
+  return el;
+};
+
 const diffSVG = `<path fill-rule="evenodd" d="M9.24264 1.79736L7.82843 3.21158L9.61685 5L7.25 5C5.45507 5 4 6.45507 4 8.25L4 15.1707C2.83481 15.5825 2 16.6938 2 18C2 19.6569 3.34315 21 5 21C6.65685 21 8 19.6569 8 18C8 16.6938 7.16519 15.5825 6 15.1707L6 8.25C6 7.55964 6.55964 7 7.25 7L9.69686 7L7.82843 8.86843L9.24264 10.2826L13.4853 6.04L9.24264 1.79736ZM5 17C4.44772 17 4 17.4477 4 18C4 18.5523 4.44772 19 5 19C5.55228 19 6 18.5523 6 18C6 17.4477 5.55228 17 5 17Z"/><path fill-rule="evenodd" d="M16 6C16 7.30621 16.8348 8.41745 18 8.82929V15.75C18 16.4404 17.4404 17 16.75 17H14.4542L16.2426 15.2116L14.8284 13.7973L10.5858 18.04L14.8284 22.2826L16.2426 20.8684L14.3742 19H16.75C18.5449 19 20 17.5449 20 15.75V8.82929C21.1652 8.41745 22 7.30621 22 6C22 4.34314 20.6569 3 19 3C17.3431 3 16 4.34314 16 6ZM20 6C20 6.55228 19.5523 7 19 7C18.4477 7 18 6.55228 18 6C18 5.44771 18.4477 5 19 5C19.5523 5 20 5.44771 20 6Z"/>`;
 
 //Contains tweets on history page, in order of newest -> oldest.
-const tweets = [];
+let tweets = [];
 
-let initialTweetText = "";
+let initialTweetIndex = -1;
+let compareTweetIndex = -1;
 
-const populateTweet = (tweetText, canSelect = true) => {
-  const tweetEl = document.createElement("div");
-  tweetEl.className = `diff-tweet ${!canSelect && "diff-tweet-disabled"}`;
-  tweetEl.innerHTML = tweetText;
+let lcsRes = "";
+
+const createTweet = (tweetIndex, canSelect = true) => {
+  const tweetEl = createElementWithProperties("div", { innerHTML: tweets[tweetIndex], className: `diff-tweet ${!canSelect && "diff-tweet-disabled"}` });
   tweetEl.appendChild(document.createElement("br"));
 
   if (canSelect) {
     tweetEl.addEventListener("click", () => {
-      console.log(lcs(initialTweetText, tweetText));
+      compareTweetIndex = tweetIndex;
+      // we want to compare older to newer so reverse args if initial is older than this index
+      if (initialTweetIndex < compareTweetIndex) lcsRes = lcs(tweets[compareTweetIndex], tweets[initialTweetIndex]);
+      else lcsRes = lcs(tweets[initialTweetIndex], tweets[compareTweetIndex]);
+
+      // destroy old modal
+      document.querySelector(".diff-modal-container")?.remove();
+
+      // create modal, populate with diff results
+      document.getElementById("layers").appendChild(populateDiffResultModal(createModal("Tweet diff")));
     });
   }
 
@@ -37,39 +55,29 @@ const populateTweet = (tweetText, canSelect = true) => {
 };
 
 const createModal = (title) => {
-  const modalContainer = document.createElement("div");
-  modalContainer.className = "diff-modal-container";
-  modalContainer.setAttribute("role", "dialog");
-  modalContainer.setAttribute("aria-modal", "true");
+  const modalContainer = createElementWithProperties("div", { className: "diff-modal-container", role: "dialog", ariaModal: "true" });
   modalContainer.style.transform = `translateY(${window.scrollY}px)`;
 
-  const modal = document.createElement("div");
-  modal.className = "diff-modal";
-
-  const modalHeader = document.createElement("div");
-  modalHeader.className = "diff-modal-header";
-
-  const closeEl = document.createElement("div");
-  closeEl.className = "diff-close";
-  closeEl.addEventListener("click", () => {
+  modalContainer.addEventListener("click", (e) => {
+    e.target === modalContainer && modalContainer.remove();
     document.documentElement.style.overflowY = "auto";
-    modalContainer.remove();
-    initialTweetText = "";
   });
 
-  const modalTitle = document.createElement("div");
-  modalTitle.className = "diff-modal-title";
-  modalTitle.innerHTML = title;
+  const modal = createElementWithProperties("div", { className: "diff-modal" });
 
-  const modalBody = document.createElement("div");
-  modalBody.className = "diff-modal-content";
+  const modalHeader = createElementWithProperties("div", { className: "diff-modal-header" });
 
-  // construct
-  modalContainer.appendChild(modal);
+  const closeEl = createElementWithProperties("div", { className: "diff-modal-close" });
+  closeEl.addEventListener("click", () => {
+    modalContainer.remove();
+    document.documentElement.style.overflowY = "auto";
+  });
+
   modalHeader.appendChild(closeEl);
-  modalHeader.appendChild(modalTitle);
+  modalHeader.appendChild(createElementWithProperties("h2", { innerHTML: title, className: "diff-modal-title" }));
   modal.appendChild(modalHeader);
-  modal.appendChild(modalBody);
+  modal.appendChild(createElementWithProperties("div", { className: "diff-modal-content" }));
+  modalContainer.appendChild(modal);
 
   return modalContainer;
 };
@@ -81,7 +89,7 @@ const appendDiffButton = (node) => {
   node.setAttribute("data-diff", "true");
 
   const tweetText = node.querySelector("div[lang] > span").innerHTML;
-  tweets.push(tweetText);
+  const newTweetIndex = tweets.push(tweetText) - 1;
 
   /**
    * @type {HTMLElement}
@@ -107,42 +115,49 @@ const appendDiffButton = (node) => {
   });
 
   diffButton.addEventListener("click", () => {
-    // create modal, populate with other available tweets (take from tweets array)
-    const layers = document.getElementById("layers");
-    initialTweetText = tweetText;
-
+    initialTweetIndex = newTweetIndex;
+    // override body scroll
     document.documentElement.style.overflowY = "hidden";
-    const inputModal = createModal("Compare tweets");
-    populateDiffInputModal(inputModal.firstChild, node);
-    layers.appendChild(inputModal);
+
+    // create modal, populate with other available tweets (take from tweets array)
+    document.getElementById("layers").appendChild(populateDiffInputModal(createModal("Compare tweets"), newTweetIndex));
   });
 };
 
-const populateDiffInputModal = (modal, node) => {
+const populateDiffInputModal = (modal, tweetIndex) => {
   const modalBody = modal.querySelector(".diff-modal-content");
-  const tweetIndex = tweets.indexOf(node.querySelector("div[lang] > span").innerHTML);
+
+  const newerTweetHeading = createElementWithProperties("h3", { innerHTML: "Newer Tweets" });
+  const olderTweetHeading = createElementWithProperties("h3", { innerHTML: "Older Tweets" });
 
   for (let i = 0; i < tweets.length; i++) {
-    const tweet = tweets[i];
-
     if (i != tweetIndex) {
-      modalBody.appendChild(populateTweet(tweet));
-    } else {
-      const newerTweetHeading = document.createElement("h3");
-      newerTweetHeading.innerHTML = "Newer tweets";
-
-      const olderTweetHeading = document.createElement("h3");
-      olderTweetHeading.innerHTML = "Older tweets";
-
-      modalBody.appendChild(newerTweetHeading);
-      modalBody.appendChild(populateTweet(tweet, false));
-      modalBody.appendChild(olderTweetHeading);
+      modalBody.appendChild(createTweet(i));
+      continue;
     }
+
+    i > 0 && modalBody.appendChild(newerTweetHeading);
+    modalBody.appendChild(createTweet(i, false));
+    i < tweets.length - 1 && modalBody.appendChild(olderTweetHeading);
   }
+
+  return modal;
 };
 
-const populateDiffResultModal = (modal, node) => {
+const populateDiffResultModal = (modal) => {
   const modalBody = modal.querySelector(".diff-modal-content");
+
+  const initialEl = createElementWithProperties("div", { innerHTML: tweets[initialTweetIndex], className: "diff-tweet diff-tweet-disabled" });
+  const compareEl = createElementWithProperties("div", { innerHTML: tweets[compareTweetIndex], className: "diff-tweet diff-tweet-disabled" });
+
+  const diffEl = createElementWithProperties("div", { className: "diff-modal-diff", innerHTML: lcsRes });
+
+  modalBody.appendChild(initialEl);
+  modalBody.appendChild(compareEl);
+  modalBody.appendChild(document.createElement("hr"));
+  modalBody.appendChild(diffEl);
+
+  return modal;
 };
 
 const main = () => {

@@ -7,11 +7,11 @@
 }
 
 .diff-modal-container {
-  position: relative;
+  position: absolute;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .diff-modal {
@@ -44,7 +44,7 @@
   z-index: 1;
 }
 
-.diff-close {
+.diff-modal-close {
   width: 24px;
   height: 24px;
   background-color: aqua;
@@ -55,7 +55,6 @@
   width: 100%;
   height: 100%;
   padding: 8px;
-  overflow-y: auto;
 }
 
 .diff-tweet {
@@ -64,4 +63,13 @@
 
 .diff-tweet-disabled {
   opacity: 0.5;
+  cursor: default;
+}
+
+.diff-modal-input {
+  z-index: 1;
+}
+
+.diff-modal-output {
+  z-index: 2;
 }
