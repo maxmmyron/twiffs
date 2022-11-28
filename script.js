@@ -30,32 +30,51 @@ const closeSVG = `<path d="M10.59 12L4.54 5.96l1.42-1.42L12 10.59l6.04-6.05 1.42
 
 //Contains tweets on history page, in order of newest -> oldest.
 let tweets = [];
+let tweetNodes = [];
 
 let initialTweetIndex = -1;
 let compareTweetIndex = -1;
 
 let lcsRes = "";
 
-const createTweet = (tweetIndex, canSelect = true) => {
-  const tweetEl = createElementWithProperties("div", { innerHTML: tweets[tweetIndex], className: `diff-tweet ${!canSelect && "diff-tweet-disabled"}` });
-  tweetEl.appendChild(document.createElement("br"));
+const createTweet = (tweetIndex, canSelect = false, isDisabled = false) => {
+  let tweetNode = tweetNodes[tweetIndex].cloneNode(true);
+  // remove tweet actions
+  tweetNode.querySelector("div[role='group']").parentElement.remove();
+  // remove tweet options container
+  tweetNode.querySelector("div[aria-label='More']").parentElement.parentElement.parentElement.parentElement.remove();
+
+  // replace twitter hover class with our own (since twitter one freezes on cloneNode)
+  tweetNode.classList.remove(tweetNode.classList[1]);
+  tweetNode.classList.add("diff-tweet");
+
+  // remove images
+  tweetNode.querySelector("div[data-testid='tweetText']").parentElement.parentElement.children[1]?.remove();
+
+  // remove thread link
+  tweetNode.firstChild.children[1]?.remove();
+
+  tweetNode.querySelectorAll("a").forEach((a) => {
+    a.setAttribute("href", "javascript:void(0)");
+    a.classList.add("diff-tweet-noselect");
+  });
+
+  if (isDisabled) tweetNode.classList.add("diff-tweet-disabled");
 
   if (canSelect) {
-    tweetEl.addEventListener("click", () => {
+    tweetNode.addEventListener("click", () => {
       compareTweetIndex = tweetIndex;
       // we want to compare older to newer so reverse args if initial is older than this index
       if (initialTweetIndex < compareTweetIndex) lcsRes = lcs(tweets[compareTweetIndex], tweets[initialTweetIndex]);
       else lcsRes = lcs(tweets[initialTweetIndex], tweets[compareTweetIndex]);
-
       // destroy old modal
       document.querySelector(".diff-modal-container")?.remove();
-
       // create modal, populate with diff results
       document.getElementById("layers").appendChild(populateDiffResultModal(createModal("Tweet diff")));
     });
   }
 
-  return tweetEl;
+  return tweetNode;
 };
 
 const createModal = (title) => {
@@ -105,6 +124,7 @@ const appendDiffButton = (node) => {
 
   const tweetText = node.querySelector("div[lang] > span").innerHTML;
   const newTweetIndex = tweets.push(tweetText) - 1;
+  tweetNodes.push(node);
 
   /**
    * @type {HTMLElement}
@@ -140,18 +160,23 @@ const appendDiffButton = (node) => {
 const populateDiffInputModal = (modal, tweetIndex) => {
   const modalBody = modal.querySelector(".diff-modal-content");
 
-  const newerTweetHeading = createElementWithProperties("h3", { innerHTML: "Newer Tweets" });
-  const olderTweetHeading = createElementWithProperties("h3", { innerHTML: "Older Tweets" });
+  const newerTweetHeading = createElementWithProperties("h2", { innerHTML: "Newer Tweets" });
+  const currentTweetHeading = createElementWithProperties("h2", { innerHTML: "Selected Tweet" });
+  const olderTweetHeading = createElementWithProperties("h2", { innerHTML: "Older Tweets" });
+
+  if (tweetIndex !== 0) modalBody.appendChild(newerTweetHeading);
 
   for (let i = 0; i < tweets.length; i++) {
     if (i != tweetIndex) {
-      modalBody.appendChild(createTweet(i));
+      modalBody.appendChild(createTweet(i, true));
       continue;
     }
 
-    i > 0 && modalBody.appendChild(newerTweetHeading);
-    modalBody.appendChild(createTweet(i, false));
-    i < tweets.length - 1 && modalBody.appendChild(olderTweetHeading);
+    if (i === tweetIndex) {
+      modalBody.appendChild(currentTweetHeading);
+      modalBody.appendChild(createTweet(i, false, true));
+      if (i < tweets.length - 1) modalBody.appendChild(olderTweetHeading);
+    }
   }
 
   return modal;
@@ -160,6 +185,7 @@ const populateDiffInputModal = (modal, tweetIndex) => {
 const populateDiffResultModal = (modal) => {
   const modalBody = modal.querySelector(".diff-modal-content");
 
+  // replace with createTweet
   const initialEl = createElementWithProperties("div", { innerHTML: tweets[initialTweetIndex], className: "diff-tweet diff-tweet-disabled" });
   const compareEl = createElementWithProperties("div", { innerHTML: tweets[compareTweetIndex], className: "diff-tweet diff-tweet-disabled" });
 
@@ -178,19 +204,19 @@ const main = () => {
 
   // check for mutations to document
   const observer = new MutationObserver((mutations, observer) => {
+    // if href changes, clear tweets array
+    if (lastHref !== window.location.href) {
+      lastHref = window.location.href;
+      tweets = [];
+      tweetNodes = [];
+      initialTweetIndex = -1;
+      compareTweetIndex = -1;
+      document.querySelectorAll(".diff-modal-container").forEach((el) => el.remove());
+    }
+
     try {
       // check if we are on the edit history page
       if (/http(s)?:\/\/(www.)?twitter.com\/(.){4,15}\/status\/(.)*\/history/.test(window.location.href)) {
-        // check if we are on a new page
-        if (lastHref !== window.location.href) {
-          lastHref = window.location.href;
-          tweets = [];
-          initialTweetIndex = -1;
-          compareTweetIndex = -1;
-          // remove modals
-          document.querySelectorAll(".diff-modal-container").forEach((el) => el.remove());
-        }
-
         for (let mutation of mutations) {
           if (mutation.type === "attributes") {
             // get all blocks that haven't been handled yet

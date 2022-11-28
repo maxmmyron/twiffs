@@ -105,7 +105,8 @@
   fill: currentcolor;
 }
 
-.diff-modal-title {
+h2.diff-modal-title,
+.diff-modal-content h2 {
   font-family: "TwitterChirp", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   line-height: 24px;
   color: rgb(15, 20, 25);
@@ -122,20 +123,35 @@
 .diff-modal-content {
   width: 100%;
   height: 100%;
-  padding-top: 4px;
-  padding-bottom: 8px;
+  padding: 4px 16px 16px;
 }
 
 .diff-tweet {
-  position: relative;
   max-width: 598px;
-  padding: 0 16px;
   cursor: pointer;
+  padding: 8px 0;
+  border-bottom: 1px solid rgb(0, 0, 0, 0.1);
+}
+
+.diff-tweet:not(.diff-tweet-disabled):hover {
+  background-color: rgba(0, 0, 0, 0.03);
 }
 
 .diff-tweet-disabled {
   opacity: 0.5;
   cursor: default;
+  user-select: none;
+}
+
+.diff-tweet-noselect {
+  cursor: default;
+  user-select: none;
+}
+
+.diff-modal-hr {
+  margin: 8px 0;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .diff-modal-input {
