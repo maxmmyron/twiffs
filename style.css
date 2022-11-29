@@ -3,7 +3,7 @@
 }
 
 .diff-bg-color {
-  background-color: rgba(228, 34, 215, 0.1);
+  background-color: rgb(228, 34, 215, 0.1);
 }
 
 .diff-modal-container {
@@ -15,7 +15,7 @@
   display: flex;
   justify-content: center;
 
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgb(0, 0, 0, 0.2);
 
   overflow: hidden;
 }
@@ -61,7 +61,7 @@
   display: flex;
   align-items: center;
 
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: rgb(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
 
   z-index: 1;
@@ -91,11 +91,11 @@
   border-radius: 9999px;
 
   transition-duration: 0.2s;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: rgb(0, 0, 0, 0);
 }
 
 .diff-modal-close:hover {
-  background-color: rgba(15, 20, 25, 0.1);
+  background-color: rgb(15, 20, 25, 0.1);
 }
 
 .diff-modal-close-svg {
@@ -133,8 +133,8 @@ h2.diff-modal-title,
   border-bottom: 1px solid rgb(0, 0, 0, 0.1);
 }
 
-.diff-tweet:not(.diff-tweet-disabled):hover {
-  background-color: rgba(0, 0, 0, 0.03);
+.diff-tweet:not(.diff-tweet-disabled):not(.diff-tweet-noselect):hover {
+  background-color: rgb(0, 0, 0, 0.03);
 }
 
 .diff-tweet-disabled {
@@ -145,13 +145,26 @@ h2.diff-modal-title,
 
 .diff-tweet-noselect {
   cursor: default;
-  user-select: none;
+}
+
+.diff-tweet-text {
+  color: rgb(0 0 0 / 1);
+}
+
+.diff-add {
+  background-color: rgb(32 204 32 / 0.2);
+  border-radius: 2px;
+}
+
+.diff-remove {
+  background-color: rgba(221 40 40 / 0.2);
+  border-radius: 2px;
 }
 
 .diff-modal-hr {
   margin: 8px 0;
   border: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgb(0 0 0 / 0.1);
 }
 
 .diff-modal-input {
