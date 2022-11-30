@@ -34,23 +34,35 @@ let lcsRes = "";
 const constructDiffHighlight = (tweetText, isOriginal) => {
   let res = document.createElement("span");
 
-  let tweetSplit = tweetText.split(" ");
-  let lcsSplit = lcsRes.split(" ");
+  let i = 0;
+  let j = 0;
 
-  for (let i = 0; i < tweetSplit.length; i++) {
-    let j = i;
+  let diffed = "";
 
-    while (j < lcsSplit.length) {
-      if (tweetSplit[i] === lcsSplit[j]) break;
+  while (i < tweetText.length && j < lcsRes.length) {
+    if (tweetText[i] === lcsRes[j]) {
+      if (diffed.length > 0) {
+        res.appendChild(createElementWithProperties("span", { innerHTML: diffed, className: `diff-${isOriginal ? "remove" : "add"}` }));
+        diffed = "";
+      }
+
+      res.appendChild(document.createTextNode(tweetText[i]));
+      i++;
       j++;
+    } else {
+      diffed += tweetText[i];
+      i++;
     }
+  }
 
-    if (j >= lcsSplit.length) {
-      let span = document.createElement("span");
-      span.classList.add(`diff-${isOriginal ? "remove" : "add"}`);
-      span.innerText = tweetSplit[i] + " ";
-      res.appendChild(span);
-    } else res.appendChild(document.createTextNode(tweetSplit[i] + " "));
+  // check end of tweetText string
+  while (i < tweetText.length) {
+    diffed += tweetText[i];
+    i++;
+  }
+
+  if (diffed.length > 0) {
+    res.appendChild(createElementWithProperties("span", { innerHTML: diffed, className: `diff-${isOriginal ? "remove" : "add"}` }));
   }
 
   return res;
