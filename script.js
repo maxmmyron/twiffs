@@ -72,6 +72,7 @@ const createTweet = (tweetIndex, canSelect = false, isDisabled = false) => {
   let tweetTextNode = tweetNode.querySelector("div[data-testid='tweetText']");
 
   // set tweet text color
+  tweetTextNode.removeAttribute("style");
   tweetTextNode.classList.add(`diff-tweet-text`);
 
   // remove images (if exists)
@@ -256,7 +257,6 @@ const main = () => {
       document.querySelectorAll(".diff-modal-container").forEach((el) => el.remove());
     }
 
-    console.log(document.body.style.backgroundColor);
     handleTheme(document.body.style.backgroundColor);
 
     try {
