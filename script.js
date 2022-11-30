@@ -209,6 +209,35 @@ const appendDiffButton = (node) => {
   });
 };
 
+const handleTheme = (backgroundColor) => {
+  const properties = [
+    "modal-container-background",
+    "modal-background",
+    "diff-modal-heading-item",
+    "diff-modal-close-background",
+    "diff-tweet-border",
+    "diff-tweet-background-hover",
+  ];
+
+  let colors = [];
+
+  switch (backgroundColor) {
+    case "rgb(21, 32, 43)": // dim
+      colors = ["91 112 131 / 0.4", "21 32 43", "239 243 244", "239 243 244", "56 68 77", "255 255 255"];
+      break;
+    case "rgb(0, 0, 0)": // lights out
+      colors = ["91 112 131 / 0.4", "0 0 0", "239 243 244", "239 243 244", "47 51 54", "255 255 255"];
+      break;
+    default: // light
+      colors = ["0 0 0 / 0.2", "255 255 255", "15 20 25", "0 0 0", "0 0 0", "0 0 0"];
+      break;
+  }
+
+  for (let i = 0; i < properties.length; i++) {
+    document.documentElement.style.setProperty(`--${properties[i]}`, colors[i]);
+  }
+};
+
 const main = () => {
   let lastHref = window.location.href;
 
@@ -223,6 +252,9 @@ const main = () => {
       newerTweetIndex = -1;
       document.querySelectorAll(".diff-modal-container").forEach((el) => el.remove());
     }
+
+    console.log(document.body.style.backgroundColor);
+    handleTheme(document.body.style.backgroundColor);
 
     try {
       // check if we are on the edit history page

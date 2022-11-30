@@ -1,20 +1,19 @@
 :root {
-  --diff-icon-color: rgb(228 34 215 / 1);
-  --diff-icon-background: rgb(228 34 215 / 0.1);
-
-  --modal-background-light: rgb(255 255 255 / 1);
-  --modal-background-dark: rgb(0 0 0 / 1);
-
-  --modal-header-background-light: rgb(255 255 255 / 0.85);
-  --modal-header-background-dark: rgb(0 0 0 / 0.85);
+  --modal-container-background: 0 0 0 / 0.2; /* ; 91 112 131 / 0.4 */
+  --modal-background: 255 255 255; /* 21 32 43 ; 0 0 0 */
+  --diff-modal-heading-item: 15 20 25; /* 239 243 244 */
+  --diff-modal-close-background: 0 0 0; /* 239 243 244 */
+  --diff-tweet-border: 0 0 0; /* 56 68 77 ; 47 51 54 */
+  --diff-tweet-background-hover: 0 0 0; /* 255 255 255 */
+  --diff-tweet-text: var(--diff-tweet-background-hover);
 }
 
 .diff-color {
-  color: var(--diff-icon-color);
+  color: rgb(228 34 215 / 1);
 }
 
 .diff-bg-color {
-  background-color: var(--diff-icon-background);
+  background-color: rgb(228 34 215 / 0.1);
 }
 
 .diff-modal-container {
@@ -26,7 +25,7 @@
   display: flex;
   justify-content: center;
 
-  background-color: rgb(0 0 0 / 0.2);
+  background-color: rgb(var(--modal-container-background));
 
   overflow: hidden;
 }
@@ -47,7 +46,7 @@
   flex-direction: column;
   align-items: stretch;
 
-  background-color: var(--modal-background-light);
+  background-color: rgb(var(--modal-background) / 1);
 
   border-radius: 16px;
 
@@ -71,7 +70,7 @@
   display: flex;
   align-items: center;
 
-  background-color: var(--modal-header-background-light);
+  background-color: rgb(var(--modal-background) / 1);
   backdrop-filter: blur(12px);
 
   z-index: 1;
@@ -101,17 +100,17 @@
   border-radius: 9999px;
 
   transition-duration: 0.2s;
-  background-color: rgb(0 0 0 / 0);
+  background-color: rgb(var(--diff-modal-close-background) / 0);
 }
 
 .diff-modal-close:hover {
-  background-color: rgb(0 0 0 / 0.2);
+  background-color: rgb(var(--diff-modal-close-background) / 0.2);
 }
 
 .diff-modal-close-svg {
   width: 20px;
   height: 20px;
-  color: rgb(15 20 25 / 1);
+  color: rgb(var(--diff-modal-heading-item) / 1);
   fill: currentcolor;
 }
 
@@ -119,7 +118,7 @@ h2.diff-modal-title,
 .diff-modal-content h2 {
   font-family: "TwitterChirp", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   line-height: 24px;
-  color: rgb(15 20 25 / 1);
+  color: rgb(var(--diff-modal-heading-item) / 1);
   font-size: 20px;
   font-weight: 700;
   overflow-wrap: break-word;
@@ -140,11 +139,11 @@ h2.diff-modal-title,
   max-width: 598px;
   cursor: pointer;
   padding: 8px;
-  border-bottom: 1px solid rgb(0 0 0 / 0.1);
+  border-bottom: 1px solid rgb(var(--diff-tweet-border) / 0.1);
 }
 
 .diff-tweet:not(.diff-tweet-disabled):not(.diff-tweet-noselect):hover {
-  background-color: rgb(0 0 0 / 0.03);
+  background-color: rgb(var(--diff-tweet-background-hover) / 0.03);
 }
 
 .diff-tweet-disabled {
@@ -158,7 +157,7 @@ h2.diff-modal-title,
 }
 
 .diff-tweet-text {
-  color: rgb(0 0 0 / 1);
+  color: rgb(var(--diff-tweet-text) / 1);
 }
 
 .diff-add {
