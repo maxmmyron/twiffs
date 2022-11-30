@@ -1,0 +1,18 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="48" height="48" fill="#141D26"/>
+<rect x="4.5" y="14.5" width="33" height="19" rx="2.5" stroke="white"/>
+<rect x="7" y="17" width="3" height="3" rx="1.5" fill="white"/>
+<rect width="3" height="1" rx="0.5" transform="matrix(1 0 0 -1 11 19)" fill="white"/>
+<rect width="5" height="1" rx="0.5" transform="matrix(1 0 0 -1 15 19)" fill="white"/>
+<rect width="7" height="1" rx="0.5" transform="matrix(1 0 0 -1 7 24)" fill="white"/>
+<rect width="11" height="1" rx="0.5" transform="matrix(1 0 0 -1 15 24)" fill="white"/>
+<rect width="3" height="1" rx="0.5" transform="matrix(1 0 0 -1 27 24)" fill="white"/>
+<rect width="12" height="1" rx="0.5" transform="matrix(1 0 0 -1 7 27)" fill="white"/>
+<rect width="9" height="1" rx="0.5" transform="matrix(1 0 0 -1 20 27)" fill="white"/>
+<rect width="4" height="1" rx="0.5" transform="matrix(1 0 0 -1 30 27)" fill="white"/>
+<rect width="8" height="1" rx="0.5" transform="matrix(1 0 0 -1 7 30)" fill="white"/>
+<rect width="14" height="1" rx="0.5" transform="matrix(1 0 0 -1 16 30)" fill="white"/>
+<path d="M26 20.5L31.5 14H45V34H26V20.5Z" fill="#141D26"/>
+<path d="M31.9497 13.2929L31.2426 12.5858L30.5355 13.2929L29.1213 14.7071L28.4142 15.4142L29.1213 16.1213L29.2029 16.2029C26.8774 16.2281 25 18.1211 25 20.4526L25 26.7381C23.8052 27.4292 23 28.721 23 30.2026C23 32.4118 24.7909 34.2026 27 34.2026C29.2091 34.2026 31 32.4118 31 30.2026C31 28.721 30.1948 27.4292 29 26.7381L29 21.6569L29.1213 21.7782L30.5355 23.1924L31.2426 23.8995L31.9497 23.1924L36.1924 18.9497L36.8995 18.2426L36.1924 17.5355L31.9497 13.2929ZM29.25 20.2026H29.2826L29.1213 20.364L29 20.4853L29 20.4526C29 20.3146 29.1119 20.2026 29.25 20.2026Z" fill="#53E453" stroke="#141D26" stroke-width="2"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M38 18C38 19.3062 38.8348 20.4175 40 20.8293V27.75C40 28.4404 39.4404 29 38.75 29H36.4542L38.2426 27.2116L36.8284 25.7974L32.5858 30.04L36.8284 34.2826L38.2426 32.8684L36.3742 31H38.75C40.5449 31 42 29.5449 42 27.75V20.8293C43.1652 20.4175 44 19.3062 44 18C44 16.3431 42.6569 15 41 15C39.3431 15 38 16.3431 38 18ZM42 18C42 18.5523 41.5523 19 41 19C40.4477 19 40 18.5523 40 18C40 17.4477 40.4477 17 41 17C41.5523 17 42 17.4477 42 18Z" fill="#E55656"/>
+</svg>
