@@ -9,11 +9,11 @@
 }
 
 .diff-color {
-  color: rgb(228 34 215 / 1);
+  color: rgb(228 34 215 / 1) !important;
 }
 
 .diff-bg-color {
-  background-color: rgb(228 34 215 / 0.1);
+  background-color: rgb(228 34 215 / 0.1) !important;
 }
 
 .diff-modal-container {
@@ -157,7 +157,7 @@ h2.diff-modal-title,
 }
 
 .diff-tweet-text {
-  color: rgb(var(--diff-tweet-text) / 1);
+  color: rgb(var(--diff-tweet-text) / 1) !important;
 }
 
 .diff-add {
