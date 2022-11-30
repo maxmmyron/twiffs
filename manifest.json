@@ -1,17 +1,17 @@
 {
   "manifest_version": 2,
-  "name": "twitterdiffs",
+  "name": "twiffs",
   "version": "1.0",
 
   "description": "edited tweet history diff highlighting ➕➖",
 
   "icons": {
-    "48": "icons/twitterdiffs-48.png"
+    "48": "icons/twiffs-48.png"
   },
 
   "browser_specific_settings": {
     "gecko": {
-      "id": "twitterdiffs@mmyron.com"
+      "id": "twiffs@mmyron.com"
     }
   },
 
