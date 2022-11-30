@@ -101,7 +101,6 @@ const createTweet = (tweetIndex, canSelect = false, isDisabled = false) => {
 
       document.querySelector(".diff-modal-container")?.remove();
       document.getElementById("layers").appendChild(populateDiffResultModal(createModal("Tweet diff")));
-      console.log("didd");
     });
   } else tweetNode.classList.add("diff-tweet-noselect");
 
@@ -146,7 +145,6 @@ const createModal = (title) => {
 };
 
 const populateDiffInputModal = (modal, tweetIndex) => {
-  console.log("A");
   const modalBody = modal.querySelector(".diff-modal-content");
 
   modalBody.appendChild(createElementWithProperties("h2", { innerHTML: "Selected Tweet" }));
@@ -173,8 +171,6 @@ const populateDiffResultModal = (modal) => {
 
   appendDiffedTweet("Newer Tweet", newerTweetIndex, false);
   appendDiffedTweet("Selected Tweet", currentTweetIndex, true);
-
-  console.log("did");
 
   return modal;
 };
