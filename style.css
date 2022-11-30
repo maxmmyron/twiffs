@@ -1,9 +1,20 @@
+:root {
+  --diff-icon-color: rgb(228 34 215 / 1);
+  --diff-icon-background: rgb(228 34 215 / 0.1);
+
+  --modal-background-light: rgb(255 255 255 / 1);
+  --modal-background-dark: rgb(0 0 0 / 1);
+
+  --modal-header-background-light: rgb(255 255 255 / 0.85);
+  --modal-header-background-dark: rgb(0 0 0 / 0.85);
+}
+
 .diff-color {
-  color: rgb(228, 34, 215);
+  color: var(--diff-icon-color);
 }
 
 .diff-bg-color {
-  background-color: rgb(228, 34, 215, 0.1);
+  background-color: var(--diff-icon-background);
 }
 
 .diff-modal-container {
@@ -15,7 +26,7 @@
   display: flex;
   justify-content: center;
 
-  background-color: rgb(0, 0, 0, 0.2);
+  background-color: rgb(0 0 0 / 0.2);
 
   overflow: hidden;
 }
@@ -36,9 +47,8 @@
   flex-direction: column;
   align-items: stretch;
 
-  background-color: white;
+  background-color: var(--modal-background-light);
 
-  border: 0px solid black;
   border-radius: 16px;
 
   overflow-y: auto;
@@ -61,7 +71,7 @@
   display: flex;
   align-items: center;
 
-  background-color: rgb(255, 255, 255, 0.85);
+  background-color: var(--modal-header-background-light);
   backdrop-filter: blur(12px);
 
   z-index: 1;
@@ -91,17 +101,17 @@
   border-radius: 9999px;
 
   transition-duration: 0.2s;
-  background-color: rgb(0, 0, 0, 0);
+  background-color: rgb(0 0 0 / 0);
 }
 
 .diff-modal-close:hover {
-  background-color: rgb(15, 20, 25, 0.1);
+  background-color: rgb(0 0 0 / 0.2);
 }
 
 .diff-modal-close-svg {
   width: 20px;
   height: 20px;
-  color: rgb(15, 20, 25);
+  color: rgb(15 20 25 / 1);
   fill: currentcolor;
 }
 
@@ -109,7 +119,7 @@ h2.diff-modal-title,
 .diff-modal-content h2 {
   font-family: "TwitterChirp", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   line-height: 24px;
-  color: rgb(15, 20, 25);
+  color: rgb(15 20 25 / 1);
   font-size: 20px;
   font-weight: 700;
   overflow-wrap: break-word;
@@ -130,11 +140,11 @@ h2.diff-modal-title,
   max-width: 598px;
   cursor: pointer;
   padding: 8px 0;
-  border-bottom: 1px solid rgb(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgb(0 0 0 / 0.1);
 }
 
 .diff-tweet:not(.diff-tweet-disabled):not(.diff-tweet-noselect):hover {
-  background-color: rgb(0, 0, 0, 0.03);
+  background-color: rgb(0 0 0 / 0.03);
 }
 
 .diff-tweet-disabled {
@@ -159,18 +169,4 @@ h2.diff-modal-title,
 .diff-remove {
   background-color: rgba(221 40 40 / 0.2);
   border-radius: 2px;
-}
-
-.diff-modal-hr {
-  margin: 8px 0;
-  border: 0;
-  border-top: 1px solid rgb(0 0 0 / 0.1);
-}
-
-.diff-modal-input {
-  z-index: 1;
-}
-
-.diff-modal-output {
-  z-index: 2;
 }
