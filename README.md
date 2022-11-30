@@ -12,7 +12,7 @@ By leveraging native twitter elements, twiffs has a near-native feeling to it.
 
 ### Chromium
 
-1. Download the latest chrome release from the [releases page](
+1. Download the latest chrome release from the [releases page](https://github.com/maxmmyron/twitterdiffs/releases/tag/1.0)
 
 ### Firefox
 
