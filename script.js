@@ -14,9 +14,6 @@ const lcs = (a, b) => {
   return mat[a.length][b.length];
 };
 
-/**
- * @returns {HTMLElement}
- */
 const createElementWithProperties = (tag, properties) => {
   const el = document.createElement(tag);
   for (const [key, value] of Object.entries(properties)) {
@@ -60,9 +57,6 @@ const constructDiffHighlight = (tweetText, isOriginal) => {
 };
 
 const createTweet = (tweetIndex, canSelect = false, isDisabled = false) => {
-  /**
-   * @type {HTMLElement}
-   */
   let tweetNode = tweetNodes[tweetIndex].cloneNode(true);
 
   // remove tweet actions
@@ -175,9 +169,6 @@ const populateDiffResultModal = (modal) => {
   return modal;
 };
 
-/**
- * @param {HTMLElement} node tweet node
- */
 const appendDiffButton = (node) => {
   node.setAttribute("data-diff", "true");
 
@@ -188,9 +179,6 @@ const appendDiffButton = (node) => {
   // if nothing newer to compare to
   if (tweetIndex === 0) return;
 
-  /**
-   * @type {HTMLElement}
-   */
   const diffButton = node.querySelector("div[role='group']").lastChild.cloneNode(true);
   node.querySelector("div[role='group']").appendChild(diffButton);
 
