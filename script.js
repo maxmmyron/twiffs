@@ -208,7 +208,11 @@ const appendDiffButton = (node) => {
   });
 };
 
+let lastBackgroundColor = null;
 const handleTheme = (backgroundColor) => {
+  if (backgroundColor === lastBackgroundColor) return;
+  lastBackgroundColor = backgroundColor;
+
   const properties = [
     "modal-container-background",
     "modal-background",
