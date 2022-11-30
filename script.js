@@ -141,11 +141,11 @@ const createModal = (title) => {
 const populateDiffInputModal = (modal, tweetIndex) => {
   const modalBody = modal.querySelector(".diff-modal-content");
 
+  modalBody.appendChild(createElementWithProperties("h2", { innerHTML: "Newer Tweets" }));
+  for (let i = 0; i < tweetIndex; i++) modalBody.appendChild(createTweet(i, true));
+
   modalBody.appendChild(createElementWithProperties("h2", { innerHTML: "Selected Tweet" }));
   modalBody.appendChild(createTweet(tweetIndex, false, true));
-  modalBody.appendChild(createElementWithProperties("h2", { innerHTML: "Newer Tweets" }));
-
-  for (let i = 0; i < tweetIndex; i++) modalBody.appendChild(createTweet(i, true));
 
   return modal;
 };
@@ -202,7 +202,6 @@ const appendDiffButton = (node) => {
 
   diffButton.addEventListener("click", () => {
     currentTweetIndex = tweetIndex;
-    // override body scroll
 
     // create modal, populate with other available tweets (take from tweets array)
     document.getElementById("layers").appendChild(populateDiffInputModal(createModal("Compare to Newer Edit"), tweetIndex));
