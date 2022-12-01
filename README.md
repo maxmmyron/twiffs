@@ -12,7 +12,7 @@ By leveraging native twitter elements, twiffs has a near-native feeling to it.
 
 ### Chromium
 
-~~Install the Chrome extension~~ _(pending approval)_
+Install the Chrome extension from the [Chrome Web Store](https://chrome.google.com/webstore/detail/twiffs/hkiaophoncefocbhepelnemjpdcddmpf).
 
 1. Download the latest Chrome release from the [releases page](https://github.com/maxmmyron/twitterdiffs/releases/tag/1.0)
 
