@@ -18,7 +18,7 @@ Install the Chrome extension from the [Chrome Web Store](https://chrome.google.c
 
 ### Firefox
 
-~~Install the Firefox Add-on~~ _(pending approval)_
+Install the firefox extension from [Firefox Browser Add-ons](https://addons.mozilla.org/en-US/firefox/addon/twiffs/) page.
 
 1. Download the latest Firefox release from the [releases page](https://github.com/maxmmyron/twitterdiffs/releases/tag/1.0)
 
