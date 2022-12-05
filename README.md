@@ -14,13 +14,13 @@ By leveraging native twitter elements, twiffs has a near-native feeling to it.
 
 Install the Chrome extension from the [Chrome Web Store](https://chrome.google.com/webstore/detail/twiffs/hkiaophoncefocbhepelnemjpdcddmpf).
 
-1. Download the latest Chrome release from the [releases page](https://github.com/maxmmyron/twitterdiffs/releases/tag/1.0)
+Alternatively, download the latest Chrome release from the [releases page](https://github.com/maxmmyron/twitterdiffs/releases/tag/1.0)
 
 ### Firefox
 
 Install the firefox extension from [Firefox Browser Add-ons](https://addons.mozilla.org/en-US/firefox/addon/twiffs/) page.
 
-1. Download the latest Firefox release from the [releases page](https://github.com/maxmmyron/twitterdiffs/releases/tag/1.0)
+Alternatively, download the latest Firefox release from the [releases page](https://github.com/maxmmyron/twitterdiffs/releases/tag/1.0)
 
 ## Usage
 
