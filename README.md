@@ -1,5 +1,8 @@
 # twiffs
 
+> [!NOTE]
+> This project is not under active maintenance as Twitter's codebase seems to rapidly change. This is not something I particularly want to keep up with. I may revisit this in the future with a better implementation that doesn't rely on shaky class parsing.
+
 twiffs is a browser extension that a native-like experience for showing diff highlighting for edited tweets.
 
 ![twiffs demo gif](./demo.gif)
